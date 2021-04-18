@@ -6,7 +6,8 @@ import { Link } from "react-router-dom";
 // import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function ProductList() {
-  const products = useSelector((state) => state.products);
+  let products = useSelector((state) => state.products);
+  products = products.map((product) => JSON.parse(product));
 
   const generateListItem = ({
     productName,
@@ -38,8 +39,11 @@ export default function ProductList() {
   };
 
   return (
-    <ListGroup className="mt-2">
-      {products.map((product) => generateListItem(product))}
-    </ListGroup>
+    <>
+      <h4>Your product list is below:</h4>
+      <ListGroup className="mt-2">
+        {products.map((product) => generateListItem(product))}
+      </ListGroup>
+    </>
   );
 }
