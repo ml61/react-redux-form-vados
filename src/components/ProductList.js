@@ -1,12 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
-import Button from "react-bootstrap/Button";
-import { useSelector } from "react-redux";
+import { Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+
+import DeleteModal from "./DeleteModal";
+import { setDeletedObj } from "../actions";
 // import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function ProductList() {
   let products = useSelector((state) => state.products);
+
+  const dispatch = useDispatch();
+
+  const [modalShow, setModalShow] = useState(false);
+
+  const handleClick = (productObj) => {
+    setModalShow(true);
+    dispatch(setDeletedObj(productObj));
+  };
 
   const generateListItem = ({
     productName,
@@ -15,22 +27,32 @@ export default function ProductList() {
     productId,
   }) => {
     return (
-      <ListGroup.Item>
-        <div className="d-flex justify-content-between align-items-center">
-          <div className="d-flex">
-            <div className="mx-4">{productName}</div>
-            <div className="mx-4">{productType}</div>
-            <div className="mx-4">{productPrice} $</div>
-          </div>
-          <div className="d-flex justify-content-between">
-            <Link to={`/edit/${productId}`}>
-              <Button className="mx-2 px-4">Edit</Button>
-            </Link>
-            <Link to={`/delete/${productId}`}>
-              <Button className="mx-2 px-3">
-                <i className="fas fa-trash-alt"></i>
-              </Button>
-            </Link>
+      <ListGroup.Item key={productId}>
+        <div class="container">
+          <div class="row">
+            <div class="col align-middle">{productName}</div>
+            <div class="col align-middle">{productType}</div>
+            <div class="col align-middle">{productPrice} $</div>
+            <div class="col align-middle">
+              <div className="d-flex justify-content-end">
+                <Link to={`/edit/${productId}`}>
+                  <Button className="mx-2 px-4">Edit</Button>
+                </Link>
+                <Button
+                  className="mx-2 px-3"
+                  onClick={() =>
+                    handleClick({
+                      productId,
+                      productName,
+                      productType,
+                      productPrice,
+                    })
+                  }
+                >
+                  <i className="fas fa-trash-alt"></i>
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </ListGroup.Item>
@@ -43,6 +65,7 @@ export default function ProductList() {
       <ListGroup className="mt-2">
         {products.map((product) => generateListItem(product))}
       </ListGroup>
+      <DeleteModal show={modalShow} onHide={() => setModalShow(false)} />
     </>
   );
 }

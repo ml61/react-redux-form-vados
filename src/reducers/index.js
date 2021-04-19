@@ -1,6 +1,12 @@
 import { combineReducers } from "redux";
+import { setDeletedObj } from "../actions";
 
-import { ADD_PRODUCT, EDIT_PRODUCT } from "../actions/types";
+import {
+  ADD_PRODUCT,
+  DELETE_PRODUCT,
+  EDIT_PRODUCT,
+  SET_DELETED_OBJ,
+} from "../actions/types";
 
 const productsReducer = (state = [], action) => {
   switch (action.type) {
@@ -13,9 +19,20 @@ const productsReducer = (state = [], action) => {
           ? action.payload
           : product;
       });
-      console.log(newState);
       return [...newState];
 
+    case DELETE_PRODUCT:
+      return state.filter((product) => product.productId != action.payload);
+
+    default:
+      return state;
+  }
+};
+
+const deletedObjReducer = (state = null, action) => {
+  switch (action.type) {
+    case SET_DELETED_OBJ:
+      return action.payload;
     default:
       return state;
   }
@@ -23,4 +40,5 @@ const productsReducer = (state = [], action) => {
 
 export default combineReducers({
   products: productsReducer,
+  deletedObj: deletedObjReducer,
 });

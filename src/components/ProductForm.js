@@ -92,7 +92,7 @@ const ProductForm = ({ initialValues, productId }) => {
   const validationSchema = Yup.object().shape({
     productName: Yup.string()
       .min(2, "*Names must have at least 2 characters")
-      .max(100, "*Names can't be longer than 100 characters")
+      .max(20, "*Names can't be longer than 20 characters")
       .required("*Name is required"),
     productType: Yup.string().required("*Product Type is required"),
     productWeight: Yup.string()
@@ -271,19 +271,19 @@ const ProductForm = ({ initialValues, productId }) => {
                 ) : null}
               </Form.Group>
             ) : null}
+            {showSuccessMsg ? (
+              <Alert variant="success">
+                {currentURL.includes("new")
+                  ? "Your product was successfully added to the list!"
+                  : "Your product was successfully upgraded"}
+              </Alert>
+            ) : null}
             <Button variant="primary" type="submit" disabled={isSubmitting}>
               Submit
             </Button>
           </Form>
         )}
       </Formik>
-      {showSuccessMsg ? (
-        <Alert variant="success">
-          {currentURL.includes("new")
-            ? "Your product was successfully added to the list!"
-            : "Your product was successfully upgraded"}
-        </Alert>
-      ) : null}
     </>
   );
 };
