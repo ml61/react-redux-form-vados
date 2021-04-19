@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 
 export default function ProductList() {
   let products = useSelector((state) => state.products);
-  products = products.map((product) => JSON.parse(product));
 
   const generateListItem = ({
     productName,

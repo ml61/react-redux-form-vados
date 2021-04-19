@@ -6,12 +6,14 @@ import Alert from "react-bootstrap/Alert";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
-import { createProduct } from "../actions";
+import { createProduct, editProduct } from "../actions";
 import { useDispatch } from "react-redux";
 
-const ProductForm = ({ initialValues }) => {
+const ProductForm = ({ initialValues, productId }) => {
   const dispatch = useDispatch();
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
+
+  let currentURL = window.location.href;
 
   // addProductToStore=(prodObj = {name:'max', price:'23.23'})
 
@@ -47,6 +49,7 @@ const ProductForm = ({ initialValues }) => {
     dualsim,
     videocard,
   }) => {
+    if (!productId) productId = Date.now();
     switch (productType) {
       case "Laptop":
         return {
@@ -56,7 +59,7 @@ const ProductForm = ({ initialValues }) => {
           productColor,
           productPrice,
           videocard,
-          productId: Date.now(),
+          productId,
         };
       case "Smartphone":
         return {
@@ -66,7 +69,7 @@ const ProductForm = ({ initialValues }) => {
           productColor,
           productPrice,
           dualsim,
-          productId: Date.now(),
+          productId,
         };
       default:
         return {
@@ -75,7 +78,7 @@ const ProductForm = ({ initialValues }) => {
           productWeight,
           productColor,
           productPrice,
-          productId: Date.now(),
+          productId,
         };
     }
   };
@@ -117,8 +120,13 @@ const ProductForm = ({ initialValues }) => {
           setSubmitting(true);
           const checkedValues = checkFormValues(values);
           // Simulate submitting to database, shows us values submitted, resets form
-          dispatch(createProduct(checkedValues));
-          resetForm();
+          if (currentURL.includes("new")) {
+            dispatch(createProduct(checkedValues));
+            resetForm();
+          }
+          if (currentURL.includes("edit")) {
+            dispatch(editProduct(checkedValues));
+          }
           setSubmitting(false);
           setShowSuccessMsg(true);
           setTimeout(() => {
@@ -271,7 +279,9 @@ const ProductForm = ({ initialValues }) => {
       </Formik>
       {showSuccessMsg ? (
         <Alert variant="success">
-          Your product were successfully added to the list!
+          {currentURL.includes("new")
+            ? "Your product was successfully added to the list!"
+            : "Your product was successfully upgraded"}
         </Alert>
       ) : null}
     </>

@@ -14,8 +14,6 @@ const CreateProduct = () => {
     videocard: "Replace this with a model of videocard",
   };
 
-  const productId = Date.now();
-
   return <ProductForm initialValues={initialValues} />;
 };
 
