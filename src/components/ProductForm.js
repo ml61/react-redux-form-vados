@@ -28,13 +28,9 @@ const ProductForm = ({ initialValues, productId }) => {
   };
 
   const generateDualsimOptions = () => {
-    const newDualsim = [
-      { name: "Is there dualsim?", id: "Is there dualsim?" },
-      ...dualsim,
-    ];
-    const options = newDualsim.map((dualsim) => (
-      <option key={dualsim.name} value={dualsim.id}>
-        {dualsim.name}
+    const options = dualsim.map((dualsimOption) => (
+      <option key={dualsimOption.name} value={dualsimOption.id}>
+        {dualsimOption.name}
       </option>
     ));
     return options;
