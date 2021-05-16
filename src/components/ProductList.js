@@ -28,12 +28,12 @@ export default function ProductList() {
   }) => {
     return (
       <ListGroup.Item key={productId}>
-        <div class="container">
-          <div class="row">
-            <div class="col align-middle">{productName}</div>
-            <div class="col align-middle">{productType}</div>
-            <div class="col align-middle">{productPrice} $</div>
-            <div class="col align-middle">
+        <div className="container">
+          <div className="row">
+            <div className="col align-middle">{productName}</div>
+            <div className="col align-middle">{productType}</div>
+            <div className="col align-middle">{productPrice} $</div>
+            <div className="col align-middle">
               <div className="d-flex justify-content-end">
                 <Link to={`/edit/${productId}`}>
                   <Button className="mx-2 px-4">Edit</Button>

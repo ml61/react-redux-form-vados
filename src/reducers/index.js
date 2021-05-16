@@ -1,5 +1,4 @@
 import { combineReducers } from "redux";
-import { setDeletedObj } from "../actions";
 
 import {
   ADD_PRODUCT,

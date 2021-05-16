@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { productTypes, dualsim } from "../database";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -10,12 +10,15 @@ import { createProduct, editProduct } from "../actions";
 import { useDispatch } from "react-redux";
 
 const ProductForm = ({ initialValues, productId }) => {
+  const timerId = useRef(null);
   const dispatch = useDispatch();
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
 
-  let currentURL = window.location.href;
+  const currentURL = window.location.href;
 
-  // addProductToStore=(prodObj = {name:'max', price:'23.23'})
+  useEffect(() => {
+    return () => clearTimeout(timerId.current);
+  }, []);
 
   const generateProductTypeOptions = () => {
     const newProdTypes = [{ name: "Choose a type", id: 1000 }, ...productTypes];
@@ -125,7 +128,7 @@ const ProductForm = ({ initialValues, productId }) => {
           }
           setSubmitting(false);
           setShowSuccessMsg(true);
-          setTimeout(() => {
+          timerId.current = setTimeout(() => {
             setShowSuccessMsg(false);
           }, 2000);
         }}

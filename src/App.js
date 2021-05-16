@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "react-bootstrap/Button";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import CreateProduct from "./components/CreateProduct";
 import DeleteProduct from "./components/DeleteProduct";

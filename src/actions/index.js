@@ -1,4 +1,3 @@
-import { productTypes } from "../database";
 import {
   ADD_PRODUCT,
   DELETE_PRODUCT,
